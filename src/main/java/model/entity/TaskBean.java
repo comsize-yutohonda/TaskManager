@@ -6,7 +6,6 @@ import java.util.Date;
 
 public class TaskBean implements Serializable {
 
-	private int taskId;
 	private String taskName;
 	private int categoryId;
 	private Date limitDate;
@@ -20,14 +19,7 @@ public class TaskBean implements Serializable {
 		
 		
 	}
-
-	public int getTaskId() {
-		return taskId;
-	}
-
-	public void setTaskId(int taskId) {
-		this.taskId = taskId;
-	}
+	
 
 	public String getTaskName() {
 		return taskName;
