@@ -20,7 +20,7 @@
 		//すべてのタスク
 		List<TaskDisplayBean> beanList = (ArrayList<TaskDisplayBean>)session.getAttribute("taskDisplayBeanList");
 		//削除対象のタスクID
-		String[] taskIdrray = (String[])session.getAttribute("taskIdArray");
+		int[] deleteIdArray = (int[])session.getAttribute("deleteIdArray");
 	%>
 	
 	<table class = "border">
@@ -34,6 +34,7 @@
 		</tr>
 		<%
 			for(TaskDisplayBean bean : beanList){ 
+				if(bean.getTaskId())
 		%>
 		<tr>
 			<!-- タスク名 -->
