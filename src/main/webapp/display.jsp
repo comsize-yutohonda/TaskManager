@@ -15,7 +15,7 @@
 	<h1>タスク一覧表示画面</h1>
 	<hr>
 	<%
-		//TaskDisplayBean beans = (CategoryBean[])session.getAttribute("cateBeans");
+		
 		List<TaskDisplayBean> beanList = (ArrayList<TaskDisplayBean>)session.getAttribute("taskDisplayBeanList");
 		// タスク情報の取得に失敗した場合
 		if(beanList == null){

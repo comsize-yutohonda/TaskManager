@@ -31,7 +31,7 @@ public class TaskDisplayDAO {
 				bean.setCategoryId(res.getInt("category_id"));
 				bean.setCategoryName(res.getString("category_name"));
 				bean.setLimitDate(res.getDate("limit_date"));
-				bean.setUserId(res.getString("category_name");
+				bean.setUserId(res.getString("category_name"));
 				bean.setUserName(res.getString("user_name"));
 				bean.setStatusName(res.getString("status_name"));
 				bean.setMemo(res.getString("memo"));

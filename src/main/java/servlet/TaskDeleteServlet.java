@@ -74,7 +74,15 @@ public class TaskDeleteServlet extends HttpServlet {
 			
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("deleteConfirm.jsp");
+		// 削除結果により転送先を分岐
+		String path;
+		if(deleted) {
+			path = "deleted.jsp"; 
+		}
+		else {
+			path = "deleteError.jsp";
+		}
+		RequestDispatcher rd = request.getRequestDispatcher(path);
 		rd.forward(request, response);
 	}
 
