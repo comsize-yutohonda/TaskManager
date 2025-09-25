@@ -4,9 +4,94 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.entity.TaskBean;
+
+
 
 public class TaskDAO {
 
+	
+	//カテゴリ選択
+	
+	public List<String> categoryList(int categoryList)throws SQLException, ClassNotFoundException{
+		
+		try (Connection con = ConnectionManager.getConnection();
+				Statement stmt = con.createStatement()) {
+
+			String sql = "SELECT * FROM m_category";
+			ResultSet res = stmt.executeQuery(sql);
+			
+			List<String> list = new ArrayList<>();
+			
+			while(res.next()) {
+				
+				String categoryName = res.getString("category_name");
+				
+				list.add(categoryName);
+				
+			}
+			
+			return list;
+			
+		}
+		
+		
+	}
+	
+	//担当者情報選択
+	
+	public List<String> userList(int userList) throws SQLException, ClassNotFoundException{
+		
+		try (Connection con = ConnectionManager.getConnection();
+				Statement stmt = con.createStatement()) {
+
+			String sql = "SELECT * FROM m_user";
+			ResultSet res = stmt.executeQuery(sql);
+			
+			List<String> list = new ArrayList<>();
+			
+			while(res.next()) {
+				
+				String userName = res.getString("user_name");
+				
+				list.add(userName);
+			}
+			
+			return list;
+		}
+		
+	}
+	
+	
+	//ステータス情報選択
+	
+	public List<String> statusList(int statusList) throws SQLException, ClassNotFoundException{
+		
+		try (Connection con = ConnectionManager.getConnection();
+				Statement stmt = con.createStatement()) {
+
+			String sql = "SELECT * FROM m_status";
+			ResultSet res = stmt.executeQuery(sql);
+			
+			List<String> list = new ArrayList<>();
+			
+			while(res.next()) {
+				
+				String statusName = res.getString("status_name");
+				
+				list.add(statusName);
+				
+			}
+			
+			return list;
+			
+		}
+	}
+	
 	
 	//カテゴリー名からカテゴリIDを出す
 	
@@ -23,7 +108,13 @@ public class TaskDAO {
 			//表を出してカテゴリIDを出す
 			ResultSet res = pstmt.executeQuery();
 			
-			int categoryId = res.getInt("category_id");
+			int categoryId = 0;
+			
+			while(res.next()) {
+				
+				categoryId = res.getInt("category_id");
+
+			}
 			
 			return categoryId;
 		}
@@ -46,8 +137,14 @@ public class TaskDAO {
 			//表を出してユーザIDを出す
 			ResultSet res = pstmt.executeQuery();
 			
-			String userId = res.getString("user_id");
+			String userId = null;
 			
+			while(res.next()) {
+				
+			
+				userId = res.getString("user_id");
+			
+			}
 			return userId;
 	
 		}
@@ -64,13 +161,18 @@ public class TaskDAO {
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			
 			//？
-			pstmt.setString(1,"statusName");
+			pstmt.setString(1,statusName);
 			
 			//表を出してステータスコードを出す
 			ResultSet res = pstmt.executeQuery();
 			
-			String statusCode = res.getString("status_code");
+			String statusCode = null;
 			
+			while(res.next()) {
+				
+				statusCode = res.getString("status_code");
+			
+			}
 			return statusCode;
 			
 		}
@@ -79,11 +181,26 @@ public class TaskDAO {
 	
 	//登録
 	
-	public int insert(String taskName,int categoryId,Date limitDate,) throws SQLException, ClassNotFoundException{
+	public int insert(TaskBean bean) throws SQLException, ClassNotFoundException{
 		
+		String sql = "INSERT INTO t_task(task_name,category_id,limit_date,user_id,status_code,memo) VALUES(?,?,?,?,?,?)";
 		
-		
-		
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
+			
+			//？
+			pstmt.setString(1,bean.getTaskName());
+			pstmt.setInt(2,bean.getCategoryId());
+			pstmt.setDate(3,bean.getLimitDate());
+			pstmt.setString(4, bean.getUserId());
+			pstmt.setString(5, bean.getStatusCode());
+			pstmt.setString(6, bean.getMemo());
+			
+			//登録
+			int count = pstmt.executeUpdate();
+			
+			return count;
+		}
 	}
 	
 }

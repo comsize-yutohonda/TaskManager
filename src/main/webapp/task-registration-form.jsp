@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.time.LocalDate,java.time.format.DateTimeFormatter"%>
+	import="java.time.LocalDate,java.time.format.DateTimeFormatter,java.util.List,java.util.ArrayList,model.dao.TaskDAO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,10 +22,10 @@
     // 現在の日付を取得
     LocalDate today = LocalDate.now();
     
-    // 日付を 'YYYY年MM月DD日' の形式にフォーマット
+    // 日付をString型に
     DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     String todayDate = today.format(date);
-%>
+	%>
 
 
 	<form action="task-register-servlet" method="POST">
@@ -39,7 +39,29 @@
 
 			<tr>
 				<th>カテゴリ情報</th>
-				<td></td>
+				<td><select name = "categoryName" required>
+				
+					<option value="" selected>選択してください</option>
+					
+					<%
+					
+					TaskDAO dao = new TaskDAO();
+					List<String> categoryList = new ArrayList<>();
+					categoryList = dao.categoryList(0);
+					
+					for(String category:categoryList){
+					
+					%>
+					
+					<option value="<%=category%>"><%=category %></option>
+					
+					<%
+					}
+					%>
+					
+					</select>
+				
+				</td>
 			</tr>
 
 			<tr>
@@ -49,12 +71,43 @@
 
 			<tr>
 				<th>担当者情報</th>
-				<td></td>
+				<td><select name="userName" required>
+					<option value="" selected>選択してください</option>
+					
+					<%
+					List<String> userList = new ArrayList<>();
+					userList = dao.userList(0);
+					
+					for(String userName:userList){
+					
+					%>
+					<option value="<%=userName%>"><%=userName %></option>
+					
+					<%
+					}
+					%>
+					</select>
+				</td>
 			</tr>
 
 			<tr>
 				<th>ステータス情報</th>
-				<td></td>
+				<td><select name = "statusName" required>
+					<option value="" selected>選択してください</option>
+					
+					<%
+					List<String> statusList = new ArrayList<>();
+					statusList = dao.statusList(0);
+					
+					for(String statusName : statusList){
+					%>
+					
+					<option value="<%=statusName%>"><%=statusName%></option>
+					<%
+					}
+					%>
+					</select>
+				</td>
 			</tr>
 
 			<tr>
@@ -65,8 +118,7 @@
 
 		</table>
 
-		<br> <input type="submit" value="登録"> <input type="reset"
-			value="クリア">
+		<br> <input type="submit" value="登録"> <input type="reset"value="クリア">
 
 	</form>
 
