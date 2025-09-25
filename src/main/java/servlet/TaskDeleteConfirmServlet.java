@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import model.entity.TaskDisplayBean;
 
 /**
  * Servlet implementation class Taski
@@ -40,13 +44,16 @@ public class TaskDeleteConfirmServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		//チェックボックスで選択されたタスクの配列をセッションで管理
-		String[] taskIdArrayString = request.getParameterValues("taskId");
-		int[] taskIdArray = new int[taskIdArrayString.length];
-		for(int i = 0; i < taskIdArray.length; i++) {
-			taskIdArray[i] = Integer.parseInt(taskIdArrayString[i]);
+		//選択されたタスクのビーンをセッションで管理
+		int deleteId = Integer.parseInt(request.getParameter("taskId"));
+		List<TaskDisplayBean> beanList = (ArrayList<TaskDisplayBean>)session.getAttribute("taskDisplayBeanList");
+		TaskDisplayBean deleteBean = null;
+		for(TaskDisplayBean bean : beanList) {
+			if(bean.getTaskId() == deleteId) {
+				deleteBean = bean;
+			}
 		}
-		session.setAttribute("deleteIdArray", taskIdArray);
+		session.setAttribute("deleteBean", deleteBean);
 		RequestDispatcher rd = request.getRequestDispatcher("deleteConfirm.jsp");
 		rd.forward(request, response);
 	}

@@ -17,10 +17,8 @@
 	<p>タスク情報を削除します。よろしいですか？</p>
 	
 	<%
-		//すべてのタスク
-		List<TaskDisplayBean> beanList = (ArrayList<TaskDisplayBean>)session.getAttribute("taskDisplayBeanList");
-		//削除対象のタスクID
-		int[] deleteIdArray = (int[])session.getAttribute("deleteIdArray");
+		//削除対象のタスク
+		TaskDisplayBean deleteBean = (TaskDisplayBean)session.getAttribute("deleteBean");
 	%>
 	
 	<table class = "border">
@@ -32,35 +30,31 @@
 			<th class = "border">ステータス情報</th>
 			<th class = "border">メモ</th>
 		</tr>
-		<%
-			for(TaskDisplayBean bean : beanList){ 
-				if(bean.getTaskId())
-		%>
 		<tr>
 			<!-- タスク名 -->
 			<td class = "border">
-				<%=bean.getTaskName() %>
+				<%=deleteBean.getTaskName() %>
 			</td>
 			<!-- カテゴリ情報 -->
-			<td class = "border"><%=bean.getCategoryName()%></td>
+			<td class = "border"><%=deleteBean.getCategoryName()%></td>
 			<!-- 期限 nullの場合「未入力」表示 -->
 			<td class = "border">
-				<%if(bean.getLimitDate() == null){ %>
+				<%if(deleteBean.getLimitDate() == null){ %>
 					未入力
 				<%}else{ %>
-					<%=bean.getLimitDate()%>
+					<%=deleteBean.getLimitDate()%>
 				<%} %>
 			</td>
 			<!-- 担当者情報 -->
-			<td class = "border"><%=bean.getUserName()%></td>
+			<td class = "border"><%=deleteBean.getUserName()%></td>
 			<!-- ステータス情報 -->
-			<td class = "border"><%=bean.getStatusName()%></td>
+			<td class = "border"><%=deleteBean.getStatusName()%></td>
 			<!-- メモ nullの場合「未入力」表示 -->
 			<td class = "border">
-				<%if(bean.getMemo() == null){ %>
+				<%if(deleteBean.getMemo() == null){ %>
 					未入力
 				<%}else{ %>
-					<%=bean.getMemo()%>
+					<%=deleteBean.getMemo()%>
 				<%} %>
 			</td>
 		</tr>
@@ -69,8 +63,5 @@
 			<input type="submit" value="削除">
 	</form>
 		
-	<%
-		}
-	%>
 </body>
 </html>

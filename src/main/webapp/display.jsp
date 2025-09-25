@@ -29,7 +29,7 @@
 	<form action="task-delete-confirm-servlet" method="post">
 		<table class = "border">
 			<tr>
-				<th class = "border"><!-- 削除用チェックボックス --></th>
+				<th class = "border"><!-- 削除用ラジオボタン --></th>
 				<th class = "border">タスク名</th>
 				<th class = "border">カテゴリ情報</th>
 				<th class = "border">期限</th>
@@ -41,9 +41,9 @@
 				for(TaskDisplayBean bean : beanList){ 
 			%>
 			<tr>
-				<!-- 削除用チェックボックス -->
+				<!-- 削除用ラジオボタン -->
 				<td class = "border">
-					<input type="checkbox" value=<%=bean.getTaskId() %> name="taskId">
+					<input type="radio" value=<%=bean.getTaskId() %> name="taskId" required>
 				</td>
 				<!-- タスク名 編集画面へのリンク -->
 				<td class = "border">

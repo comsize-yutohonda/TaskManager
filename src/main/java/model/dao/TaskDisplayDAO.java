@@ -28,8 +28,10 @@ public class TaskDisplayDAO {
 				TaskDisplayBean bean = new TaskDisplayBean();
 				bean.setTaskId(res.getInt("task_id"));
 				bean.setTaskName(res.getString("task_name"));
+				bean.setCategoryId(res.getInt("category_id"));
 				bean.setCategoryName(res.getString("category_name"));
 				bean.setLimitDate(res.getDate("limit_date"));
+				bean.setUserId(res.getString("category_name");
 				bean.setUserName(res.getString("user_name"));
 				bean.setStatusName(res.getString("status_name"));
 				bean.setMemo(res.getString("memo"));

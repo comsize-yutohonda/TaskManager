@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.dao.TaskDeleteDAO;
+import model.entity.TaskDisplayBean;
+import model.entity.UserBean;
 
 /**
  * Servlet implementation class Taski
@@ -43,22 +45,33 @@ public class TaskDeleteServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
+		
+		//ログイン確認
+		UserBean loginUserBean = (UserBean)session.getAttribute("LoginUserBean");
+		if(loginUserBean == null) {
+			
+		}
+		
 		TaskDeleteDAO dao = new TaskDeleteDAO();
 		
-		// 削除するtaskId
-		String[] taskIdArray = request.getParameterValues("taskId");
+		// 削除するタスクのビーン
+		TaskDisplayBean deleteBean = (TaskDisplayBean)session.getAttribute("deleteBean");
 		//削除結果
 		boolean deleted = false;
 		
-		// 削除実行
-		try {
-			for(String id : taskIdArray) {
-				dao.deleteTask(Integer.parseInt(id));
+		// 削除するタスクがログインユーザー本人のタスクのときのみ削除を行う
+		if(deleteBean.getUserId() == loginUserBean.getUserId())
+		{
+			// 削除実行
+			try {
+					deleted = dao.deleteTask(deleteBean.getTaskId());
+				
 			}
-		}
-		catch(SQLException|ClassNotFoundException e) {
-			System.out.println(e);
-			e.printStackTrace();
+			catch(SQLException|ClassNotFoundException e) {
+				System.out.println(e);
+				e.printStackTrace();
+			}
+			
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher("deleteConfirm.jsp");
