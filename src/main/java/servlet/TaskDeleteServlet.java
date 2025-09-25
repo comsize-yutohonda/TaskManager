@@ -44,12 +44,13 @@ public class TaskDeleteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-		HttpSession session = request.getSession();
 		
-		//ログイン確認
+		// ログインの確認 ログインしていない場合ログイン画面に遷移する
+		HttpSession session = request.getSession();
 		UserBean loginUserBean = (UserBean)session.getAttribute("LoginUserBean");
 		if(loginUserBean == null) {
-			
+			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			rd.forward(request, response);
 		}
 		
 		TaskDeleteDAO dao = new TaskDeleteDAO();
@@ -59,21 +60,21 @@ public class TaskDeleteServlet extends HttpServlet {
 		//削除結果
 		boolean deleted = false;
 		
-		// 削除するタスクがログインユーザー本人のタスクのときのみ削除を行う
-		if(deleteBean.getUserId() == loginUserBean.getUserId())
-		{
-			// 削除実行
-			try {
-					deleted = dao.deleteTask(deleteBean.getTaskId());
-				
-			}
-			catch(SQLException|ClassNotFoundException e) {
-				System.out.println(e);
-				e.printStackTrace();
+		
+		// 削除実行
+		try {
+			// 削除するタスクがログインユーザー本人のタスクのときのみ削除を行う
+			if(deleteBean.getUserId() == loginUserBean.getUserId())
+			{
+				deleted = dao.deleteTask(deleteBean.getTaskId());
 			}
 			
 		}
-		
+		catch(SQLException|ClassNotFoundException|NullPointerException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+			
 		// 削除結果により転送先を分岐
 		String path;
 		if(deleted) {

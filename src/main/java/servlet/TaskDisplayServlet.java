@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import model.dao.TaskDisplayDAO;
 import model.entity.TaskDisplayBean;
+import model.entity.UserBean;
 
 /**
  * Servlet implementation class Taski
@@ -44,6 +45,22 @@ public class TaskDisplayServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
+		// ログインの確認 ログインしていない場合ログイン画面に遷移する
+		HttpSession session = request.getSession();
+		
+		// 仮のログインユーザー
+		UserBean userBean = new UserBean();
+		userBean.setPassword("password");
+		userBean.setUserId("honda");
+		session.setAttribute("LoginUserBean", userBean);
+		
+		UserBean loginUserBean = (UserBean)session.getAttribute("LoginUserBean");
+		if(loginUserBean == null) {
+			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			rd.forward(request, response);
+		}
+		
+		// 全タスク情報を取得
 		TaskDisplayDAO dao = new TaskDisplayDAO();
 		List<TaskDisplayBean> beanList = null;
 		try {
@@ -53,7 +70,7 @@ public class TaskDisplayServlet extends HttpServlet {
 			System.out.println(e);
 			e.printStackTrace();
 		}
-		HttpSession session = request.getSession();
+		
 		session.setAttribute("taskDisplayBeanList", beanList);
 		RequestDispatcher rd = request.getRequestDispatcher("display.jsp");
 		rd.forward(request, response);

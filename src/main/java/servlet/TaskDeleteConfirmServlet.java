@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.entity.TaskDisplayBean;
+import model.entity.UserBean;
 
 /**
  * Servlet implementation class Taski
@@ -43,17 +44,27 @@ public class TaskDeleteConfirmServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
+		
+		// ログインの確認 ログインしていない場合ログイン画面に遷移する
 		HttpSession session = request.getSession();
-		//選択されたタスクのビーンをセッションで管理
-		int deleteId = Integer.parseInt(request.getParameter("taskId"));
-		List<TaskDisplayBean> beanList = (ArrayList<TaskDisplayBean>)session.getAttribute("taskDisplayBeanList");
-		TaskDisplayBean deleteBean = null;
-		for(TaskDisplayBean bean : beanList) {
-			if(bean.getTaskId() == deleteId) {
-				deleteBean = bean;
+		UserBean loginUserBean = (UserBean)session.getAttribute("LoginUserBean");
+		if(loginUserBean == null) {
+			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			rd.forward(request, response);
+		}
+		
+		//タスク一覧から遷移した場合,削除対象のビーンをセッションに登録
+		String deleteId =request.getParameter("taskId");
+		if(deleteId != null) {
+			List<TaskDisplayBean> beanList = (ArrayList<TaskDisplayBean>)session.getAttribute("taskDisplayBeanList");
+			for(TaskDisplayBean bean : beanList) {
+				if(bean.getTaskId() == Integer.parseInt(deleteId)) {
+					TaskDisplayBean deleteBean = bean;
+					session.setAttribute("deleteBean", deleteBean);
+				}
 			}
 		}
-		session.setAttribute("deleteBean", deleteBean);
+		
 		RequestDispatcher rd = request.getRequestDispatcher("deleteConfirm.jsp");
 		rd.forward(request, response);
 	}
