@@ -43,7 +43,7 @@
 			<tr>
 				<!-- 削除用ラジオボタン -->
 				<td class = "border">
-					<input type="radio" value=<%=bean.getTaskId() %> name="hoge">
+					<input type="radio" value=<%=bean.getTaskId() %> name="taskId" required>
 				</td>
 				<!-- タスク名 編集画面へのリンク -->
 				<td class = "border">
