@@ -52,7 +52,6 @@ public class TaskRegistrationServlet extends HttpServlet {
 		*/
 		
 		
-
 		try {
 			
 			//リクエスト受取
@@ -65,6 +64,7 @@ public class TaskRegistrationServlet extends HttpServlet {
 			String userName = request.getParameter("userName");
 			String statusName = request.getParameter("statusName");
 			String memo = request.getParameter("memo");
+		
 			
             	
 			//DAOに接続
@@ -82,13 +82,8 @@ public class TaskRegistrationServlet extends HttpServlet {
 			//ステータス名からステータスコードを取得
 			String statusCode = dao.statusCode(statusName);
 			
-			//期限の日付をDATA型に変換
-			Date limitDate = Date.valueOf(limit);
-            
 			
-			
-			
-    		
+	
 			/*
 			//現在日時を取得
 			LocalDateTime nowDatetime = LocalDateTime.now();
@@ -124,6 +119,32 @@ public class TaskRegistrationServlet extends HttpServlet {
     		pw.println("</html>");
 			*/
 			
+			Date limitDate = null;
+			
+			if(limit.isEmpty()) {
+				
+				
+				
+			}else {
+				
+				//期限の日付をDATA型に変換
+				limitDate = Date.valueOf(limit);
+
+				
+			}
+			
+			/*
+			response.setContentType("text/html; charset=UTF-8");
+    		
+    		PrintWriter pw = response.getWriter();
+    		
+	   		pw.println("<!DOCTIPE html><html>");
+    		pw.println("<head><title>試し</title></head>");
+    		pw.println("<body>"+memo+limit+limitDate);
+    		pw.println("</body>");
+    		pw.println("</html>");
+			
+			*/
 			
 			//TaskBeanに登録する情報を詰める
 			
@@ -139,14 +160,14 @@ public class TaskRegistrationServlet extends HttpServlet {
 			
 			//登録する
 			
-			int count ;
+			int count = 0;
+			
 			count = dao.insert(bean);
-			
-			
-			
+				
 
 			//セッション設定
 			HttpSession session = request.getSession();
+			
 			session.setAttribute("taskName",taskName);
 			session.setAttribute("categoryName", categoryName);
 			session.setAttribute("limit", limit);
@@ -156,9 +177,15 @@ public class TaskRegistrationServlet extends HttpServlet {
 
 			
 			//遷移
-			String url = "task-registration-success.jsp";
 			
-			if(count==0) {
+			String url = null;
+				
+			if(count==1) {
+				
+				url = "task-registration-success.jsp";
+
+				
+			}else {
 				
 				url = "task-registration-error.jsp";
 				
@@ -173,6 +200,10 @@ public class TaskRegistrationServlet extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException  e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+		
+			RequestDispatcher rd = request.getRequestDispatcher("task-registration-error.jsp");
+			rd.forward(request, response);
+			
 		}
 	}
 }

@@ -26,7 +26,7 @@ create index task_index on m_status(status_code);
 
 CREATE TABLE t_task(
 task_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-task_name VARCHAR(50) UNIQUE KEY NOT NULL,
+task_name VARCHAR(50)  NOT NULL,
 category_id INT NOT NULL,
 limit_date DATE NULL,
 user_id VARCHAR(24)NOT NULL,

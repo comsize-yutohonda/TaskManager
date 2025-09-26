@@ -18,7 +18,7 @@
 	
 	
 	
-	<table>
+	<table border="1">
 		<tr>
 			<th>タスク名</th>
 			<td><%=session.getAttribute("taskName") %></td>

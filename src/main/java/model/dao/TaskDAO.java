@@ -197,7 +197,9 @@ public class TaskDAO {
 			pstmt.setString(6, bean.getMemo());
 			
 			//登録
-			int count = pstmt.executeUpdate();
+			int count = 0;
+			
+			count = pstmt.executeUpdate();
 			
 			return count;
 		}
