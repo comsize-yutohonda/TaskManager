@@ -157,13 +157,6 @@ public class TaskRegistrationServlet extends HttpServlet {
 			bean.setStatusCode(statusCode);
 			bean.setMemo(memo);
 			
-			
-			//登録する
-			
-			int count = 0;
-			
-			count = dao.insert(bean);
-				
 
 			//セッション設定
 			HttpSession session = request.getSession();
@@ -175,6 +168,15 @@ public class TaskRegistrationServlet extends HttpServlet {
 			session.setAttribute("statusName",statusName);
 			session.setAttribute("memo", memo);
 
+			
+			//登録する
+			
+			int count = 0;
+			
+			count = dao.insert(bean);
+				
+
+			
 			
 			//遷移
 			

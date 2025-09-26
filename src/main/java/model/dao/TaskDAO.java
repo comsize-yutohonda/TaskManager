@@ -197,9 +197,22 @@ public class TaskDAO {
 			pstmt.setString(6, bean.getMemo());
 			
 			//登録
-			int count = 0;
+			/*
+				
+			String taskName = bean.getTaskName();
+			String memo = bean.getMemo();
 			
-			count = pstmt.executeUpdate();
+			
+			if(taskName.length()>50 || memo.length()>100) {
+				
+				count = 0;
+				
+			}else {
+			//
+				
+			}*/
+			
+			int count = pstmt.executeUpdate();
 			
 			return count;
 		}
