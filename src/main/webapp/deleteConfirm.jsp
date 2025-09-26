@@ -30,6 +30,9 @@
 			<th class = "border">ステータス情報</th>
 			<th class = "border">メモ</th>
 		</tr>
+		<%
+			if(deleteBean != null){
+		%>
 		<tr>
 			<!-- タスク名 -->
 			<td class = "border">
@@ -58,7 +61,11 @@
 				<%} %>
 			</td>
 		</tr>
+		<%
+			}
+		%>
 	</table>
+	
 	<form action="task-delete-servlet" method="post">	
 			<input type="submit" value="削除">
 	</form>
