@@ -55,7 +55,7 @@ public class TaskDeleteServlet extends HttpServlet {
 		
 		TaskDeleteDAO dao = new TaskDeleteDAO();
 		
-		// 削除するタスクのビーン
+		// 削除するタスクのビーンを取得
 		TaskDisplayBean deleteBean = (TaskDisplayBean)session.getAttribute("deleteBean");
 		//削除結果
 		boolean deleted = false;

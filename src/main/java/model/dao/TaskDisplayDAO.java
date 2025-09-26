@@ -13,14 +13,15 @@ public class TaskDisplayDAO {
 
 	public List<TaskDisplayBean> selectAllTask() throws SQLException, ClassNotFoundException {
 		List<TaskDisplayBean> beanList = new ArrayList<>();
-		String sql = "select * from t_task t "
-				+ "join m_user u on t.user_id = u.user_id "
-				+ "join m_category c on t.category_id = c.category_id "
-				+ "join m_status s on t.status_code = s.status_code "
-				+ "order by task_id asc";
+		StringBuilder sql = new StringBuilder();
+		sql.append("select * from t_task t ");
+		sql.append("join m_user u on t.user_id = u.user_id ");
+		sql.append("join m_category c on t.category_id = c.category_id ");
+		sql.append("join m_status s on t.status_code = s.status_code ");
+		sql.append("order by task_id asc");
 		
 		try(Connection con = ConnectionManager.getConnection();
-				PreparedStatement pstmt = con.prepareStatement(sql)){
+				PreparedStatement pstmt = con.prepareStatement(sql.toString())){
 		
 			ResultSet res = pstmt.executeQuery();
 			
