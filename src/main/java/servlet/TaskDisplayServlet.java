@@ -45,22 +45,23 @@ public class TaskDisplayServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-		// ログインの確認 ログインしていない場合ログイン画面に遷移する
-		HttpSession session = request.getSession();
 		
-		// 仮のログインユーザー
+		// テスト用の仮のログインユーザーをセット
+		HttpSession session = request.getSession();
 		UserBean userBean = new UserBean();
 		userBean.setPassword("password");
 		userBean.setUserId("honda");
 		session.setAttribute("LoginUserBean", userBean);
-		
+				
+		// ログインの確認 ログインしていない場合ログイン画面に遷移する
+		// HttpSession session = request.getSession();
 		UserBean loginUserBean = (UserBean)session.getAttribute("LoginUserBean");
 		if(loginUserBean == null) {
 			RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 			rd.forward(request, response);
 		}
 		
-		// 全タスク情報を取得
+		// 全タスク情報を取得、転送
 		TaskDisplayDAO dao = new TaskDisplayDAO();
 		List<TaskDisplayBean> beanList = null;
 		try {

@@ -64,7 +64,7 @@ public class TaskDeleteServlet extends HttpServlet {
 		// 削除実行
 		try {
 			// 削除するタスクがログインユーザー本人のタスクのときのみ削除を行う
-			if(deleteBean.getUserId() == loginUserBean.getUserId())
+			if(deleteBean.getUserId().equals(loginUserBean.getUserId()))
 			{
 				deleted = dao.deleteTask(deleteBean.getTaskId());
 			}

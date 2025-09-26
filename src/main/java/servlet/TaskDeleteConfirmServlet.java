@@ -53,7 +53,7 @@ public class TaskDeleteConfirmServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 		
-		//タスク一覧から遷移した場合,削除対象のビーンをセッションに登録
+		//タスク一覧から遷移した場合,削除対象のビーンをセッションにセット
 		String deleteId =request.getParameter("taskId");
 		if(deleteId != null) {
 			List<TaskDisplayBean> beanList = (ArrayList<TaskDisplayBean>)session.getAttribute("taskDisplayBeanList");
