@@ -7,19 +7,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="itemlistservlet" method="post">
+	<form action="task-register-servlet" method="post">
 		<h1>メニュー画面</h1><br>
 		<hr>
-		<%
-UserBean bean = (UserBean)session.getAttribute("username");
-	%>
-	ようこそ!<%=bean.getUserName()%>さん<br>
-		<input type=submit value=商品一覧>
+		<input type=submit value="タスク登録">
 	</form>
-	<form action="itemAddServlet" method="GET">
-		<input type="submit" value="商品登録">
+	<form action="task-display-servlet" method="GET">
+		<input type="submit" value="タスク一覧表示">
 	</form>
-	<form action="logout-success.jsp" method="POST">
+	<form action="logoutservlet" method="POST">
 		<input type="submit" value="ログアウト">
 	</form>
 </body>
