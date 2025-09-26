@@ -1,3 +1,4 @@
+DROP DATABASE task_db;
 CREATE DATABASE task_db;
 USE task_db;
 
@@ -26,7 +27,7 @@ create index task_index on m_status(status_code);
 
 CREATE TABLE t_task(
 task_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-task_name VARCHAR(50) UNIQUE KEY NOT NULL,
+task_name VARCHAR(50) NOT NULL,
 category_id INT NOT NULL,
 limit_date DATE NULL,
 user_id VARCHAR(24)NOT NULL,
@@ -53,7 +54,7 @@ INSERT INTO t_task(task_name,category_id,user_id,status_code,memo)VALUE('äÈâÊèëç
 show columns from m_user;
 show columns from m_category;
 show columns from m_status;
-show coluTypeFieldmns from t_task;
+show columns from t_task;
 
 
 SELECT * FROM m_user;
