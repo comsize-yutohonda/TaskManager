@@ -103,6 +103,8 @@ public class TaskRegistrationServlet extends HttpServlet {
 			
 			if(limit.isEmpty()) {
 				
+				limitDate = null;
+				
 				bean.setTaskName(taskName);
 				bean.setCategoryId(categoryId);
 				bean.setLimitDate(limitDate);
@@ -173,8 +175,8 @@ public class TaskRegistrationServlet extends HttpServlet {
 						url = "task-registration-error.jsp";
 					}
 				}
-
 				
+			}
 			//セッション設定
 			
 			session.setAttribute("taskName",taskName);
@@ -188,7 +190,7 @@ public class TaskRegistrationServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(url);
 			rd.forward(request, response);
 			
-			}
+		
 			
 			
 		} catch (ClassNotFoundException | SQLException  e) {
