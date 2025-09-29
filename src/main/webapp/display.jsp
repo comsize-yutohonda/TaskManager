@@ -63,9 +63,9 @@
 				<td class = "border"><%=bean.getUserName()%></td>
 				<!-- ステータス情報 -->
 				<td class = "border"><%=bean.getStatusName()%></td>
-				<!-- メモ nullの場合「未入力」表示 -->
+				<!-- メモ nullもしくは空文字の場合「未入力」表示 -->
 				<td class = "border">
-					<%if(bean.getMemo() == null){ %>
+					<%if(bean.getMemo() == null || bean.getMemo().isEmpty()){ %>
 						未入力
 					<%}else{ %>
 						<%=bean.getMemo()%>
