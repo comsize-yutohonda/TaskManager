@@ -15,7 +15,7 @@
 	<form action="task-display-servlet" method="GET">
 		<input type="submit" value="タスク一覧表示">
 	</form>
-	<form action="logoutservlet" method="POST">
+	<form action="logout-servlet" method="POST">
 		<input type="submit" value="ログアウト">
 	</form>
 </body>
