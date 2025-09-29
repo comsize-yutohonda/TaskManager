@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.dao.TaskDAO;
-import model.entity.TaskBean; 
+import model.entity.TaskBean;
+import model.entity.UserBean; 
 
 /**
  * Servlet implementation class TaskRegistrationServlet
@@ -49,13 +50,13 @@ public class TaskRegistrationServlet extends HttpServlet {
 		
 		// ログインの確認 ログインしていない場合ログイン画面に遷移する
         HttpSession session = request.getSession();
-        /*
+        
         UserBean loginUserBean = (UserBean)session.getAttribute("LoginUserBean");
         if(loginUserBean == null) {
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.forward(request, response);
         }
-		*/
+		
 
 
 		
@@ -134,13 +135,13 @@ public class TaskRegistrationServlet extends HttpServlet {
 				limitDate = Date.valueOf(limit);
 
 				//受け取った期限をString型→LocalDate型に
-				LocalDate ld1 = LocalDate.parse(limit);
+				LocalDate limitDate2 = LocalDate.parse(limit);
 
 				//今日の期限の設定
-				LocalDate ld2 = LocalDate.now();
+				LocalDate today = LocalDate.now();
 				
 				
-				if(ld1.isBefore(ld2)) {
+				if(limitDate2.isBefore(today)) {
 					
 					//指定した期限が今日以前なら失敗に遷移
 					
