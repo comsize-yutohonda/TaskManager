@@ -15,7 +15,7 @@ import model.entity.TaskBean;
 public class TaskDAO {
 
 	
-	//カテゴリ選択
+	//登録フォームのカテゴリ選択
 	
 	public List<String> categoryList(int categoryList)throws SQLException, ClassNotFoundException{
 		
@@ -42,7 +42,7 @@ public class TaskDAO {
 		
 	}
 	
-	//担当者情報選択
+	//登録フォームの担当者情報選択
 	
 	public List<String> userList(int userList) throws SQLException, ClassNotFoundException{
 		
@@ -67,7 +67,7 @@ public class TaskDAO {
 	}
 	
 	
-	//ステータス情報選択
+	//登録画面のステータス情報選択
 	
 	public List<String> statusList(int statusList) throws SQLException, ClassNotFoundException{
 		

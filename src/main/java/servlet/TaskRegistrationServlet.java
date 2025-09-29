@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.dao.TaskDAO;
-import model.entity.TaskBean; 
+import model.entity.TaskBean;
+import model.entity.UserBean; 
 
 /**
  * Servlet implementation class TaskRegistrationServlet
@@ -44,13 +45,18 @@ public class TaskRegistrationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		// TODO Auto-generated method stub
 		
-		/*ログインセッションの確認
 		
-		HttpSession session = request.getSession();
-		UserBean userBean = (UserBean)sesson.setAttribute("LoginUserBean");
 		
-		*/
-		
+		// ログインの確認 ログインしていない場合ログイン画面に遷移する
+        HttpSession session = request.getSession();
+        UserBean loginUserBean = (UserBean)session.getAttribute("LoginUserBean");
+        if(loginUserBean == null) {
+            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+            rd.forward(request, response);
+        }
+
+
+
 		
 		try {
 			
@@ -84,40 +90,7 @@ public class TaskRegistrationServlet extends HttpServlet {
 			
 			
 	
-			/*
-			//現在日時を取得
-			LocalDateTime nowDatetime = LocalDateTime.now();
-			
-			//現在日時→String型に
-			DateTimeFormatter nowFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-			String formatNowDate = nowFormat.format(nowDatetime);
-			
-			//String型からDate型に
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date dateNowDate = (Date) dateFormat.parse(formatNowDate);
-			
-			//Date型からTimestamp型に		
-			Timestamp createTime = new Timestamp(dateNowDate.getTime());
-	
-			*/
-			
-			
-			//期限の日付をDATA型に変換
-			
-            //SimpleDateFormat limitFormat = new SimpleDateFormat("yyyy-MM-dd");
-            //Date limitDate = limitFormat.parse(limit);
-			
-			
-            /*response.setContentType("text/html; charset=UTF-8");
-    		
-    		PrintWriter pw = response.getWriter();
-    		
-	   		pw.println("<!DOCTIPE html><html>");
-    		pw.println("<head><title>試し</title></head>");
-    		pw.println("<body>"+userName+userId+statusName+statusCode+limitDate);
-    		pw.println("</body>");
-    		pw.println("</html>");
-			*/
+			//期限の設定
 			
 			Date limitDate = null;
 			
@@ -133,18 +106,6 @@ public class TaskRegistrationServlet extends HttpServlet {
 				
 			}
 			
-			/*
-			response.setContentType("text/html; charset=UTF-8");
-    		
-    		PrintWriter pw = response.getWriter();
-    		
-	   		pw.println("<!DOCTIPE html><html>");
-    		pw.println("<head><title>試し</title></head>");
-    		pw.println("<body>"+memo+limit+limitDate);
-    		pw.println("</body>");
-    		pw.println("</html>");
-			
-			*/
 			
 			//TaskBeanに登録する情報を詰める
 			
@@ -159,7 +120,6 @@ public class TaskRegistrationServlet extends HttpServlet {
 			
 
 			//セッション設定
-			HttpSession session = request.getSession();
 			
 			session.setAttribute("taskName",taskName);
 			session.setAttribute("categoryName", categoryName);
@@ -174,22 +134,18 @@ public class TaskRegistrationServlet extends HttpServlet {
 			int count = 0;
 			
 			count = dao.insert(bean);
-				
-
+			
+			
 			
 			
 			//遷移
 			
-			String url = null;
+			String url = "task-registration-error.jsp";
 				
 			if(count==1) {
 				
 				url = "task-registration-success.jsp";
 
-				
-			}else {
-				
-				url = "task-registration-error.jsp";
 				
 			}
 			
