@@ -33,7 +33,7 @@
 		<table border="1">
 			<tr>
 				<th>タスク名</th>
-				<td><input type="text" name="taskName"  required></td>
+				<td><input type="text" name="taskName"  maxlength="50"required></td>
 			</tr>
 
 
@@ -112,7 +112,7 @@
 
 			<tr>
 				<th>メモ</th>
-				<td><textarea name="memo" rows="5" cols="50" ></textarea></td>
+				<td><textarea name="memo" rows="5" cols="50" maxlength="100"></textarea></td>
 			</tr>
 
 

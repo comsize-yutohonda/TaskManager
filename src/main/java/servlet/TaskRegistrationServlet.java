@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.dao.TaskDAO;
-import model.entity.TaskBean;
-import model.entity.UserBean; 
+import model.entity.TaskBean; 
 
 /**
  * Servlet implementation class TaskRegistrationServlet
@@ -49,12 +49,13 @@ public class TaskRegistrationServlet extends HttpServlet {
 		
 		// ログインの確認 ログインしていない場合ログイン画面に遷移する
         HttpSession session = request.getSession();
+        /*
         UserBean loginUserBean = (UserBean)session.getAttribute("LoginUserBean");
         if(loginUserBean == null) {
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.forward(request, response);
         }
-
+		*/
 
 
 		
@@ -89,36 +90,91 @@ public class TaskRegistrationServlet extends HttpServlet {
 			String statusCode = dao.statusCode(statusName);
 			
 			
-	
-			//期限の設定
+		
 			
 			Date limitDate = null;
 			
+			String url = null;
+			
+			TaskBean bean = new TaskBean();
+			
+			int count ;
+			
+			
 			if(limit.isEmpty()) {
 				
+				bean.setTaskName(taskName);
+				bean.setCategoryId(categoryId);
+				bean.setLimitDate(limitDate);
+				bean.setUserId(userId);
+				bean.setStatusCode(statusCode);
+				bean.setMemo(memo);
 				
+				count = dao.insert(bean);
+				
+				//遷移
+					
+				if(count==1) {
+					
+					url = "task-registration-success.jsp";
+	
+					
+				}else {
+					
+					url = "task-registration-error.jsp";
+				}
+
+
 				
 			}else {
 				
 				//期限の日付をDATA型に変換
 				limitDate = Date.valueOf(limit);
 
-				
-			}
-			
-			
-			//TaskBeanに登録する情報を詰める
-			
-			TaskBean bean = new TaskBean();
-			
-			bean.setTaskName(taskName);
-			bean.setCategoryId(categoryId);
-			bean.setLimitDate(limitDate);
-			bean.setUserId(userId);
-			bean.setStatusCode(statusCode);
-			bean.setMemo(memo);
-			
+				//受け取った期限をString型→LocalDate型に
+				LocalDate ld1 = LocalDate.parse(limit);
 
+				//今日の期限の設定
+				LocalDate ld2 = LocalDate.now();
+				
+				
+				if(ld1.isBefore(ld2)) {
+					
+					//指定した期限が今日以前なら失敗に遷移
+					
+					url = "task-registration-error.jsp";
+					
+					
+				}else {
+				
+					//指定した期限が今日以降なら登録する
+					
+					//TaskBeanに登録する情報を詰める
+					
+					bean.setTaskName(taskName);
+					bean.setCategoryId(categoryId);
+					bean.setLimitDate(limitDate);
+					bean.setUserId(userId);
+					bean.setStatusCode(statusCode);
+					bean.setMemo(memo);
+					
+					count = dao.insert(bean);
+					
+
+					//遷移
+					
+					if(count==1) {
+						
+						url = "task-registration-success.jsp";
+		
+						
+					}else {
+						
+						url = "task-registration-error.jsp";
+					}
+				}
+
+				
 			//セッション設定
 			
 			session.setAttribute("taskName",taskName);
@@ -129,30 +185,10 @@ public class TaskRegistrationServlet extends HttpServlet {
 			session.setAttribute("memo", memo);
 
 			
-			//登録する
-			
-			int count = 0;
-			
-			count = dao.insert(bean);
-			
-			
-			
-			
-			//遷移
-			
-			String url = "task-registration-error.jsp";
-				
-			if(count==1) {
-				
-				url = "task-registration-success.jsp";
-
-				
-			}
-			
-
 			RequestDispatcher rd = request.getRequestDispatcher(url);
 			rd.forward(request, response);
 			
+			}
 			
 			
 		} catch (ClassNotFoundException | SQLException  e) {
