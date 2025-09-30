@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.dao.TaskDAO;
-import model.entity.TaskBean;
-import model.entity.UserBean; 
+import model.entity.TaskBean; 
 
 /**
  * Servlet implementation class TaskRegistrationServlet
@@ -51,12 +50,13 @@ public class TaskRegistrationServlet extends HttpServlet {
 		// ログインの確認 ログインしていない場合ログイン画面に遷移する
         HttpSession session = request.getSession();
         
+        /*
         UserBean loginUserBean = (UserBean)session.getAttribute("LoginUserBean");
         if(loginUserBean == null) {
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.forward(request, response);
         }
-		
+		*/
 
 
 		
@@ -81,6 +81,8 @@ public class TaskRegistrationServlet extends HttpServlet {
 			
 			//カテゴリ名からカテゴリIDを取得			
 			int categoryId = dao.categoryId(categoryName);
+			
+			System.out.println(categoryId);
 
 			
 			//ユーザ名からユーザIDを取得

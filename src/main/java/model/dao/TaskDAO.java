@@ -17,7 +17,7 @@ public class TaskDAO {
 	
 	//登録フォームのカテゴリ選択
 	
-	public List<String> categoryList(int categoryList)throws SQLException, ClassNotFoundException{
+	public List<String> categoryList()throws SQLException, ClassNotFoundException{
 		
 		try (Connection con = ConnectionManager.getConnection();
 				Statement stmt = con.createStatement()) {
@@ -44,7 +44,7 @@ public class TaskDAO {
 	
 	//登録フォームの担当者情報選択
 	
-	public List<String> userList(int userList) throws SQLException, ClassNotFoundException{
+	public List<String> userList() throws SQLException, ClassNotFoundException{
 		
 		try (Connection con = ConnectionManager.getConnection();
 				Statement stmt = con.createStatement()) {
@@ -69,7 +69,7 @@ public class TaskDAO {
 	
 	//登録画面のステータス情報選択
 	
-	public List<String> statusList(int statusList) throws SQLException, ClassNotFoundException{
+	public List<String> statusList() throws SQLException, ClassNotFoundException{
 		
 		try (Connection con = ConnectionManager.getConnection();
 				Statement stmt = con.createStatement()) {

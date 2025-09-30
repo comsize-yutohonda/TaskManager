@@ -47,7 +47,7 @@
 					
 					TaskDAO dao = new TaskDAO();
 					List<String> categoryList = new ArrayList<>();
-					categoryList = dao.categoryList(0);
+					categoryList = dao.categoryList();
 					
 					for(String category:categoryList){
 					
@@ -76,7 +76,7 @@
 					
 					<%
 					List<String> userList = new ArrayList<>();
-					userList = dao.userList(0);
+					userList = dao.userList();
 					
 					for(String userName:userList){
 					
@@ -97,7 +97,7 @@
 					
 					<%
 					List<String> statusList = new ArrayList<>();
-					statusList = dao.statusList(0);
+					statusList = dao.statusList();
 					
 					for(String statusName : statusList){
 					%>
